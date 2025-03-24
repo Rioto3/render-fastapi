@@ -23,12 +23,11 @@ ENV UV_LINK_MODE=copy
 
 
 # 外部ツールはここに！！
-ENV EXTERNAL_PACKAGES="ffmpeg imagemagick"
-
-RUN apt-get update && apt-get install -y \
-    $EXTERNAL_PACKAGES \
+# Start of Selection
+RUN apt-get update \
+    && apt-get install -y ffmpeg imagemagick\
     && rm -rf /var/lib/apt/lists/*
-
+# End of Selection
 
 
 # Install dependencies
