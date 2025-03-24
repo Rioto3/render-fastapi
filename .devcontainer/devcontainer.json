@@ -1,0 +1,33 @@
+{
+  "name": "FastAPI Development",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "../docker-compose.override.yml"
+  ],
+  "service": "backend",
+  "workspaceFolder": "/app/render-fastapi2/backend",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "matangover.mypy",
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml",
+        "njpwerner.autodocstring",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/app/.venv/bin/python",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "always"
+        },
+        "python.analysis.typeCheckingMode": "basic"
+      }
+    }
+  },
+  "postCreateCommand": "uv sync && pip install requests beautifulsoup4 aiohttp",
+  "remoteUser": "root",
+  "forwardPorts": [8000]
+ }

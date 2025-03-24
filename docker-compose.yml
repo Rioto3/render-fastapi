@@ -22,9 +22,6 @@ services:
   adminer:
     image: adminer
     restart: always
-    networks:
-      - traefik-public
-      - default
     depends_on:
       - db
     environment:
@@ -46,9 +43,6 @@ services:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     build:
       context: ./backend
-    networks:
-      - traefik-public
-      - default
     depends_on:
       db:
         condition: service_healthy
@@ -78,9 +72,6 @@ services:
   backend:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     restart: always
-    networks:
-      - traefik-public
-      - default
     depends_on:
       db:
         condition: service_healthy
