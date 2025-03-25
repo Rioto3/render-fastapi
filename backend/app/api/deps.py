@@ -2,7 +2,7 @@ from collections.abc import Generator
 from typing import Annotated
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Header, status
 from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
@@ -55,3 +55,18 @@ def get_current_active_superuser(current_user: CurrentUser) -> User:
             status_code=403, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+
+
+# APIキー認証用の関数
+def get_api_key(x_api_key: str = Header(None)):
+    # 環境変数などから取得した正しいAPIキー
+    SECRET_KEY = settings.SECRET_KEY
+    
+    # APIキーが提供されていない、または正しくない場合はエラー
+    if not x_api_key or x_api_key != SECRET_KEY:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid API key",
+        )
+    return x_api_key
