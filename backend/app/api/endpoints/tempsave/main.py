@@ -192,7 +192,7 @@ async def get_file_info(filename: str, request: Request = None, api_key: str = D
         raise HTTPException(status_code=500, detail=f"ファイル情報の取得中にエラー: {str(e)}")
 
 @router.get("/files/{filename}", name="files_serve")
-async def files_serve(filename: str, api_key: str = Depends(get_api_key)):
+async def files_serve(filename: str):
     """
     指定したファイル名のファイルを直接提供するエンドポイント
     
@@ -237,7 +237,7 @@ async def files_serve(filename: str, api_key: str = Depends(get_api_key)):
         raise HTTPException(status_code=500, detail=f"ファイル提供中にエラー: {str(e)}")
 
 @router.delete("/files/{filename}", response_model=dict, name="delete_file")
-async def delete_file(filename: str, api_key: str = Depends(get_api_key)):
+async def delete_file(filename: str):
     """
     指定したファイル名のファイルを削除するエンドポイント
     
