@@ -1,11 +1,12 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, Depends
 import subprocess
 import os
+from app.api.deps import get_api_key
 
 router = APIRouter()
 
 @router.get("/capture_stream_screenshot", response_model=None)
-async def capture_stream_screenshot(url: str, output_file: str):
+async def capture_stream_screenshot(url: str, output_file: str, api_key: str = Depends(get_api_key)):
     result = run_ffmpeg(url, output_file)
     if os.path.exists(output_file):
         with open(output_file, "rb") as f:

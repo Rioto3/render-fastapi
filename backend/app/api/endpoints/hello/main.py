@@ -14,3 +14,6 @@ def hello_world(api_key: str = Depends(get_api_key)):
 @router.get("/{name}")
 def hello_name(name: str, api_key: str = Depends(get_api_key)):
     return {"message": f"こんにちは {name}さん"}
+
+
+

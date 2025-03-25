@@ -1,9 +1,10 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.responses import FileResponse
 import os
 from pathlib import Path
 from datetime import datetime
 from typing import List
+from app.api.deps import get_api_key
 
 router = APIRouter()
 
@@ -13,7 +14,7 @@ TEMP_DIR = Path("./temp_uploads")
 TEMP_DIR.mkdir(exist_ok=True)
 
 @router.post("/upload", response_model=dict)
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(file: UploadFile = File(...), api_key: str = Depends(get_api_key)):
     """ファイルをアップロードし、サーバー側の一時領域に保存するエンドポイント"""
     try:
         # ファイルが空でないか確認
@@ -45,7 +46,7 @@ async def upload_file(file: UploadFile = File(...)):
 
 
 @router.get("/download/{filename}")
-async def download_file(filename: str):
+async def download_file(filename: str, api_key: str = Depends(get_api_key)):
     """指定したファイル名のファイルをダウンロードするエンドポイント"""
     try:
         # ファイルパスを構築
@@ -83,7 +84,7 @@ async def download_file(filename: str):
 
 
 @router.get("/files", response_model=List[dict])
-async def list_files():
+async def list_files(api_key: str = Depends(get_api_key)):
     """一時領域に保存されているファイル一覧を取得するエンドポイント"""
     try:
         # ディレクトリが存在することを確認
