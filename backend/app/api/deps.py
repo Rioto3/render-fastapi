@@ -60,7 +60,14 @@ def get_current_active_superuser(current_user: CurrentUser) -> User:
 
 # APIキー認証用の関数
 def get_api_key(x_api_key: str = Header(None)):
-    # 環境変数などから取得した正しいAPIキー
+    
+    # 開発中はAPIキーチェックをスキップ
+    ENVIRONMENT = settings.ENVIRONMENT
+    if ENVIRONMENT=="local":
+        return "localhost_access_granted"
+    
+    
+    # 環境変数から取得した正しいAPIキー
     SECRET_KEY = settings.SECRET_KEY
     
     # APIキーが提供されていない、または正しくない場合はエラー
