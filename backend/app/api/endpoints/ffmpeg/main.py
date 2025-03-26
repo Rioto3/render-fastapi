@@ -12,7 +12,14 @@ async def capture_stream_screenshot(url: str, output_file: str, api_key: str = D
         with open(output_file, "rb") as f:
             image_data = f.read()
         os.remove(output_file)
-        return Response(content=image_data, media_type="image/jpeg")
+        
+        # キャッシュを防ぐためのヘッダーを追加
+        response = Response(content=image_data, media_type="image/jpeg")
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
+        
     return {"message": f"処理結果: {result}"}
 
 
