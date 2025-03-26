@@ -191,6 +191,7 @@ async def get_file_info(filename: str, request: Request = None, api_key: str = D
         logger.error(f"ファイル情報取得中にエラー: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"ファイル情報の取得中にエラー: {str(e)}")
 
+
 @router.get("/files/{filename}", name="files_serve")
 async def files_serve(filename: str):
     """
@@ -222,19 +223,30 @@ async def files_serve(filename: str):
         
         logger.info(f"ファイル提供: {filename}, タイプ: {content_type}, 表示方法: {content_disposition_type}")
         
-        # ファイルをレスポンスとして返す
-        return FileResponse(
+        # キャッシュ制御ヘッダーを追加したFileResponseを返す
+        response = FileResponse(
             path=file_path,
             media_type=content_type,
             filename=filename,
             content_disposition_type=content_disposition_type
         )
+        
+        # キャッシュ制御ヘッダーを設定
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        
+        return response
             
     except HTTPException:
         raise
     except Exception as e:
         logger.error(f"ファイル提供中にエラー: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"ファイル提供中にエラー: {str(e)}")
+
+
+
+
 
 @router.delete("/files/{filename}", response_model=dict, name="delete_file")
 async def delete_file(filename: str):
