@@ -14,6 +14,3 @@ api_router.include_router(ffmpeg_router, prefix="/ffmpeg", tags=["ffmpeg"])
 from app.api.endpoints.tempsave import router as tempsave_router
 api_router.include_router(tempsave_router, prefix="/tempsave", tags=["tempsave"])
 
-
-# from app.api.endpoints.{endpoint_name} import router as {endpoint_name}_router
-# api_router.include_router({endpoint_name}_router, prefix="/{endpoint_name}", tags=["{endpoint_name}"])
