@@ -1,6 +1,6 @@
 #!/bin/bash
 
-endpoint_name="new_endpoint"
+endpoint_name="sendai_livecamera_bs4"
 
 echo "# エンドポイント${endpoint_name}追加 $(date +%Y%m%d)" >> main.py
 echo "from app.api.endpoints.${endpoint_name} import router as ${endpoint_name}_router" >> main.py

@@ -14,3 +14,6 @@ api_router.include_router(ffmpeg_router, prefix="/ffmpeg", tags=["ffmpeg"])
 from app.api.endpoints.tempsave import router as tempsave_router
 api_router.include_router(tempsave_router, prefix="/tempsave", tags=["tempsave"])
 
+# エンドポイントsendai_livecamera_bs4追加 20250326
+from app.api.endpoints.sendai_livecamera_bs4 import router as sendai_livecamera_bs4_router
+api_router.include_router(sendai_livecamera_bs4_router, prefix="/sendai_livecamera_bs4", tags=["sendai_livecamera_bs4"])
